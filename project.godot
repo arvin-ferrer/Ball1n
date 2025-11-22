@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GameJam"
-run/main_scene="uid://c1fo2g8yx01c0"
+run/main_scene="uid://xni7hh3fqy3x"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [input]
 

@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2syatk0fq20k"]
+[gd_scene load_steps=5 format=3 uid="uid://xni7hh3fqy3x"]
 
-[ext_resource type="PackedScene" uid="uid://fklfw2j7lip2" path="res://player.tscn" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://d3m6c4je48grl" path="res://enemy.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" path="res://player.tscn" id="1_0xm2m"]
+[ext_resource type="PackedScene" path="res://enemy.tscn" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://xlm8acebu2ow" path="res://SpawnEnemy.gd" id="3_h2yge"]
+
+[sub_resource type="Curve2D" id="Curve2D_1bvp3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -90, -89, 0, 0, 0, 0, 2040, -92, 0, 0, 0, 0, 2053, 1199, 0, 0, 0, 0, -87, 1189, 0, 0, 0, 0, -90, -89)
+}
+point_count = 5
 
 [node name="Main" type="Node2D"]
 
@@ -16,3 +23,14 @@ position = Vector2(1735, 911)
 
 [node name="Enemy3" parent="." instance=ExtResource("2_h2yge")]
 position = Vector2(64, 979)
+
+[node name="SpawnArea" type="Path2D" parent="."]
+curve = SubResource("Curve2D_1bvp3")
+script = ExtResource("3_h2yge")
+enemy = ExtResource("2_h2yge")
+
+[node name="SpawnTimer" type="Timer" parent="SpawnArea"]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="SpawnArea/SpawnTimer" to="SpawnArea" method="_on_spawn_timer_timeout"]
