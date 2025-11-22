@@ -50,18 +50,18 @@ func _physics_process(delta):
 		else:
 			bounce_bullet(collision.get_normal())
 	
-	if position.x < 0:
-		position.x = 0
-		bounce_bullet(Vector2.RIGHT)
-	elif position.x > screen_size.x:
-		position.x = screen_size.x
-		bounce_bullet(Vector2.LEFT)
-	if position.y < 0:
-		position.y = 0
-		bounce_bullet(Vector2.DOWN)
-	elif position.y > screen_size.y:
-		position.y = screen_size.y
-		bounce_bullet(Vector2.UP)
+	#if position.x < 0:
+		#position.x = 0
+		#bounce_bullet(Vector2.RIGHT)
+	#elif position.x > screen_size.x:
+		#position.x = screen_size.x
+		#bounce_bullet(Vector2.LEFT)
+	#if position.y < 0:
+		#position.y = 0
+		#bounce_bullet(Vector2.DOWN)
+	#elif position.y > screen_size.y:
+		#position.y = screen_size.y
+		#bounce_bullet(Vector2.UP)
 
 func bounce_bullet(normal_vector):
 	velocity = velocity.bounce(normal_vector)
