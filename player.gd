@@ -3,9 +3,11 @@ signal hit
 
 @export var speed = 400
 @export var bullet_scene: PackedScene
+@export var knockback_bullet_scene: PackedScene
 
 @export var dash_speed = 1200  
 @export var dash_duration = 0.2 
+@export var knockback_cooldown = 5.0
 @export var dash_cooldown = 0.8
 @onready var dash_particles = $DashParticles
 @onready var bullet_tracker = $BulletTracker 
@@ -13,6 +15,7 @@ var is_dashing = false
 var can_dash = true
 var screen_size
 var has_bullet = true
+var knockback_bullet_ready = true
 
 
 @export var level_label: Label
@@ -29,6 +32,7 @@ var xp_to_next_level: int = 100
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	
 	
 	if level_label: level_label.text = "Level " + str(level)
 func update_bullet_tracker():
@@ -76,6 +80,9 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("shoot"):
 		if has_bullet:
 			fire_bullet()
+	
+	if Input.is_action_just_pressed("knockback_bullet") and knockback_bullet_ready and has_bullet:
+		fire_knockback_bullet()
 
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -111,6 +118,27 @@ func fire_bullet():
 	current_bullet = b 
 	has_bullet = false
 
+func fire_knockback_bullet():
+	if knockback_bullet_scene == null:
+		print("No Special Bullet Assigned")
+		return
+	
+	if not has_bullet:
+		return
+	
+	var special_bullet = knockback_bullet_scene.instantiate()
+	special_bullet.global_position = $Muzzle.global_position
+	special_bullet.rotation = rotation
+	get_tree().root.add_child(special_bullet)
+	
+	has_bullet = false
+	current_bullet = special_bullet
+	
+	
+	knockback_bullet_ready = false
+	await get_tree().create_timer(knockback_cooldown).timeout
+	knockback_bullet_ready = true
+	
 func reload():
 	has_bullet = true
 	current_bullet = null 

@@ -45,7 +45,7 @@ func _physics_process(delta):
 		if collider.name == "Player" or collider.has_method("reload"):
 			return 
 		if collider.is_in_group("enemies"):
-			collider.die()
+			handle_enemy_collision(collider)
 			bounce_bullet(collision.get_normal())
 		else:
 			bounce_bullet(collision.get_normal())
@@ -67,6 +67,9 @@ func bounce_bullet(normal_vector):
 	velocity = velocity.bounce(normal_vector)
 	rotation = velocity.angle()
 
+func handle_enemy_collision(enemy):
+	enemy.die()
+	
 func return_to_player():
 	returning = true
 	catchable = false

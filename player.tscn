@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://fklfw2j7lip2"]
+[gd_scene load_steps=12 format=3 uid="uid://fklfw2j7lip2"]
 
 [ext_resource type="Script" uid="uid://fehhrvrc5aub" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://d2pqny5xdpl60" path="res://special_bullet.tscn" id="3_hqtel"]
 [ext_resource type="Texture2D" uid="uid://b1yre8so81545" path="res://tileset/spr_alex.png" id="3_i3pqv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
@@ -49,6 +50,7 @@ size = Vector2(49, 62)
 collision_layer = 2
 script = ExtResource("1_4flbx")
 bullet_scene = ExtResource("2_i3pqv")
+knockback_bullet_scene = ExtResource("3_hqtel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2pqny5xdpl60"]
+
+[ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="1_vcipp"]
+[ext_resource type="Script" uid="uid://bcrj6n4qwbkp6" path="res://special_bullet.gd" id="2_tlf6o"]
+
+[node name="special_bullet" instance=ExtResource("1_vcipp")]
+script = ExtResource("2_tlf6o")
