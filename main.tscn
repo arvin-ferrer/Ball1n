@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=4 uid="uid://d2syatk0fq20k"]
+[gd_scene load_steps=8 format=4 uid="uid://xni7hh3fqy3x"]
 
 [ext_resource type="PackedScene" uid="uid://fklfw2j7lip2" path="res://player.tscn" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://d3m6c4je48grl" path="res://enemy.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" path="res://enemy.tscn" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://xlm8acebu2ow" path="res://SpawnEnemy.gd" id="3_h2yge"]
 [ext_resource type="Texture2D" uid="uid://b0nkeabwe0fxs" path="res://tileset/topDown_baseTiles.png" id="4_1bvp3"]
 
 [sub_resource type="Curve2D" id="Curve2D_1bvp3"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -90, -89, 0, 0, 0, 0, 2040, -92, 0, 0, 0, 0, 2053, 1199, 0, 0, 0, 0, -87, 1189, 0, 0, 0, 0, -90, -89)
+"points": PackedVector2Array(0, 0, 0, 0, 682.2212, 426.58072, 0, 0, 0, 0, 1513.8228, 451.2208, 0, 0, 0, 0, 1469.1626, -3.080017, 0, 0, 0, 0, 2040, -92, 0, 0, 0, 0, 1894.2034, 443.52078, 0, 0, 0, 0, 2053, 1199, 0, 0, 0, 0, 1698.623, 862.4015, 0, 0, 0, 0, 1415.2625, 937.8617, 0, 0, 0, 0, 1375.2224, 1370.6024, 0, 0, 0, 0, 1128.822, 1381.3824, 0, 0, 0, 0, 1105.7219, 742.2814, 0, 0, 0, 0, 511.28088, 913.2217, 0, 0, 0, 0, 482.02087, 1389.0825, 0, 0, 0, 0, -371.14066, 1389.0825, 0, 0, 0, 0, -73.920166, 771.5414, 0, 0, 0, 0, 180.1803, 349.5806, 0, 0, 0, 0, 602.141, -3.080017, 0, 0, 0, 0, -36.960083, 4.619995, 0, 0, 0, 0, -392.7007, 164.78027)
 }
-point_count = 5
+point_count = 19
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lquwl"]
 texture = ExtResource("4_1bvp3")
