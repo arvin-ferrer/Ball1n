@@ -1,4 +1,4 @@
-extends CharacterBody2D 
+extends CharacterBody2D
 signal hit
 
 @export var speed = 400
@@ -33,9 +33,73 @@ var xp_to_next_level: int = 100
 func _ready():
 	screen_size = get_viewport_rect().size
 	
-	
 	if level_label: level_label.text = "Level " + str(level)
+
+	if level_label and is_instance_valid(level_label): 
+		level_label.text = "Level " + str(level)
+		
+	var heart_container = get_tree().get_current_scene().get_node("Bars/HBoxContainer")
+	
+	
+	if heart_container: 
+		for child in heart_container.get_children():
+			
+			if child is TextureRect:
+				heart_list.append(child)
+				 
+	update_healthbar()      
+	update_exp(xp) 
+
+func update_exp(xp):
+
+	var exp_var = get_tree().get_current_scene().get_node("Bars/ExpBar")
+	
+	# Safety check for exp_var
+	if exp_var:
+		exp_var.value = xp
+		exp_var.max_value = xp_to_next_level
+		
+func gain_xp(amount):
+	xp += amount
+	
+	update_exp(xp)
+	
+	if xp >= xp_to_next_level:
+		level_up()
+
+func level_up():
+	xp -= xp_to_next_level
+	level += 1
+	xp_to_next_level = int(xp_to_next_level * 1.5)
+	
+
+	if level_label and is_instance_valid(level_label):
+		level_label.text = "Level " + str(level)
+		
+	update_exp(xp)
+	
+	show_level_up_popup()
+	
+func show_level_up_popup():
+	# Check if label is assigned before animating
+	if not popup_label or not is_instance_valid(popup_label):
+		return
+		
+	popup_label.visible = true
+	popup_label.modulate.a = 1.0 # Ensure full visibility at start
+	
+	var tween = create_tween()
+	
+	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
+	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
+	
+	await tween.finished
+	popup_label.visible = false
+	popup_label.modulate.a = 1.0 
+	popup_label.position.y += 100 # Reset position down
+	
 func update_bullet_tracker():
+	
 	bullet_tracker.global_position = global_position 
 
 	if current_bullet == null or not is_instance_valid(current_bullet):
@@ -49,13 +113,19 @@ func update_bullet_tracker():
 	else:
 		bullet_tracker.visible = true
 		bullet_tracker.look_at(current_bullet.global_position)
+		
 func _physics_process(_delta):
 	time_since_hit += _delta
 	look_at(get_global_mouse_position())
 	update_bullet_tracker()
+	
 	if is_dashing:
 		move_and_slide()
-		return 
+		
+		if dash_particles:
+			dash_particles.emitting = false
+		return  
+		
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
@@ -90,11 +160,13 @@ func _physics_process(_delta):
 		if collider.is_in_group("enemies") and time_since_hit >= damage_cooldown:
 			take_damage(1)
 			time_since_hit = 0.0
+			
 func start_dash():
 	is_dashing = true
 	can_dash = false
 	
-	dash_particles.emitting = true 
+	if dash_particles:
+		dash_particles.emitting = true  
 	
 	if velocity == Vector2.ZERO:
 		velocity = Vector2.RIGHT.rotated(rotation) * dash_speed
@@ -103,10 +175,14 @@ func start_dash():
 		
 	await get_tree().create_timer(dash_duration).timeout
 	is_dashing = false
-	velocity = Vector2.ZERO 
+	velocity = Vector2.ZERO  
+	
+	if dash_particles:
+		dash_particles.emitting = false # Stop particles after dash duration
 	
 	await get_tree().create_timer(dash_cooldown).timeout
 	can_dash = true
+	
 func fire_bullet():
 	if bullet_scene == null:
 		print("ERROR: No Bullet Scene assigned!")
@@ -142,6 +218,7 @@ func fire_knockback_bullet():
 func reload():
 	has_bullet = true
 	current_bullet = null 
+	
 func take_damage(amount):
 	current_health -= amount
 	current_health = clamp(current_health, 0, max_health)
@@ -161,12 +238,11 @@ func die():
 	
 	if current_bullet != null and is_instance_valid(current_bullet):
 		current_bullet.queue_free()
-		current_bullet = null 
+		current_bullet = null  
 		
 	await get_tree().create_timer(1.5).timeout
-	get_tree().reload_current_scene()
-	
-	has_bullet = true
+	get_tree().reload_current_scene()	
+	has_bullet = true 
 	
 func start(pos):
 	position = pos
