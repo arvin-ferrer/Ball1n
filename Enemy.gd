@@ -2,25 +2,43 @@ extends CharacterBody2D
 
 @export var speed = 200
 @export var xp_reward = 20 
-
-
 var player = null
 
 func _ready():
-	player = get_parent().get_node_or_null("Player")
+	add_to_group("enemies")  # Important for bullet collision
+	find_player()
+
+func find_player():
+	# Try multiple methods to find the player
+	player = get_tree().get_first_node_in_group("player")
+	
+	if player == null:
+		player = get_tree().current_scene.get_node_or_null("Player")
+	
+	if player == null:
+		# Search through parent's children
+		var parent = get_parent()
+		if parent:
+			player = parent.get_node_or_null("Player")
+	
+	if player == null:
+		print("WARNING: Enemy couldn't find player!")
 
 func _physics_process(delta):
-	if player != null:
-		look_at(player.global_position)
-		
-		var direction = global_position.direction_to(player.global_position)
-		
-		velocity = direction * speed
-		move_and_slide()
-		
+	# If we still don't have a player reference, try to find it
+	if player == null or not is_instance_valid(player):
+		find_player()
+		return
+	
+	look_at(player.global_position)
+	
+	var direction = global_position.direction_to(player.global_position)
+	
+	velocity = direction * speed
+	move_and_slide()
 
 func die():
-	if player != null and player.has_method("gain_xp"):
+	if player != null and is_instance_valid(player) and player.has_method("gain_xp"):
 		player.gain_xp(xp_reward)
 	
 	queue_free()
