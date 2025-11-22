@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://lowsfuhgbtm4"]
+
+[ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="1_v7oki"]
+[ext_resource type="Script" uid="uid://cq6pv3bbjnf55" path="res://Bullet.gd" id="1_v8qja"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8qja"]
+size = Vector2(24, 26)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8qja"]
+radius = 22.0
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_v8qja")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_v7oki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v8qja")
+
+[node name="PickupArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_v8qja")
+
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
