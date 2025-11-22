@@ -3,7 +3,9 @@ signal hit
 
 @export var speed = 400
 @export var bullet_scene: PackedScene
-
+var xp: int = 0
+var level: int = 1
+var xp_to_next_level: int = 100
 var screen_size
 var has_bullet = true
 
@@ -14,6 +16,21 @@ var heart_list : Array[TextureRect]
 var damage_cooldown = 1
 var time_since_hit = 0.0
 
+func gain_xp(amount):
+	xp += amount
+	print("Gained XP! Total: ", xp, "/", xp_to_next_level)
+	
+	# Check for Level Up
+	if xp >= xp_to_next_level:
+		level_up()
+func level_up():
+	xp -= xp_to_next_level 
+	level += 1
+	xp_to_next_level = int(xp_to_next_level * 1.5) # increase requirement by 50%
+	
+	#make player faster 
+	speed += 50 
+	print("LEVEL UP! You are now Level ", level)
 func _ready():
 	screen_size = get_viewport_rect().size
 	var heart_container = get_tree().get_current_scene().get_node("health_bar/HBoxContainer")
