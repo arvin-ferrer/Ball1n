@@ -10,6 +10,7 @@ size = Vector2(24, 26)
 radius = 34.0
 
 [node name="Bullet" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_v8qja")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
