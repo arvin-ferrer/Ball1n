@@ -13,6 +13,8 @@ var current_bullet = null  # Track the current bullet
 var xp: int = 0
 var level: int = 1
 var xp_to_next_level: int = 100
+
+
 func gain_xp(amount):
 	xp += amount
 	print("Gained XP! Total: ", xp, "/", xp_to_next_level)
@@ -20,6 +22,9 @@ func gain_xp(amount):
 	# Check for Level Up
 	if xp >= xp_to_next_level:
 		level_up()
+	
+	update_exp(xp)
+	
 func level_up():
 	xp -= xp_to_next_level  
 	level += 1
@@ -28,14 +33,22 @@ func level_up():
 	speed += 50 
 	print("LEVEL UP! You are now Level ", level)
 	
+	update_exp(xp)
+	
 
+func update_exp(xp):
+	var exp_var = get_tree().get_current_scene().get_node("Bars/ExpBar")
+	
+	exp_var.value = xp
+	exp_var.max_value = xp_to_next_level
 func _ready():
 	screen_size = get_viewport_rect().size
-	var heart_container = get_tree().get_current_scene().get_node("health_bar/HBoxContainer")
+	var heart_container = get_tree().get_current_scene().get_node("Bars/HBoxContainer")
 	for child in heart_container.get_children():
 		heart_list.append(child)
 	
 	update_healthbar()	
+	update_exp(xp)
 
 func _physics_process(_delta):
 	time_since_hit += _delta
