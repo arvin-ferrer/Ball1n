@@ -2,6 +2,8 @@ extends CharacterBody2D
 signal hit
 @export var speed = 400
 @export var bullet_scene: PackedScene
+@export var level_label: Label
+@export var popup_label: Label
 var screen_size
 var has_bullet = true
 var max_health: int = 3
@@ -9,33 +11,39 @@ var current_health = max_health
 var heart_list : Array[TextureRect]
 var damage_cooldown = 1
 var time_since_hit = 0.0
-var current_bullet = null  # Track the current bullet
+var current_bullet = null 
 var xp: int = 0
 var level: int = 1
 var xp_to_next_level: int = 100
-
-
 func gain_xp(amount):
 	xp += amount
-	print("Gained XP! Total: ", xp, "/", xp_to_next_level)
 	
-	# Check for Level Up
+	update_exp(xp) 
+	
 	if xp >= xp_to_next_level:
 		level_up()
-	
-	update_exp(xp)
-	
+
 func level_up():
-	xp -= xp_to_next_level  
+	xp -= xp_to_next_level
 	level += 1
 	xp_to_next_level = int(xp_to_next_level * 1.5)
 	
-	speed += 50 
-	print("LEVEL UP! You are now Level ", level)
-	
 	update_exp(xp)
 	
-
+	level_label.text = "Level " + str(level)
+	show_level_up_popup()
+func show_level_up_popup():
+	popup_label.visible = true	
+	var tween = create_tween()
+	 #popup_label.position = get_viewport_rect().size / 2
+	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
+	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
+	
+	await tween.finished
+	popup_label.visible = false
+	popup_label.modulate.a = 1.0 
+	popup_label.position.y += 100
+	
 func update_exp(xp):
 	var exp_var = get_tree().get_current_scene().get_node("Bars/ExpBar")
 	
@@ -49,6 +57,7 @@ func _ready():
 	
 	update_healthbar()	
 	update_exp(xp)
+	level_label.text = "Level " + str(level)
 
 func _physics_process(_delta):
 	time_since_hit += _delta
@@ -95,7 +104,7 @@ func fire_bullet():
 	b.global_position = $Muzzle.global_position
 	b.rotation = rotation
 	get_tree().root.add_child(b)
-	current_bullet = b  # Track the bullet
+	current_bullet = b 
 	has_bullet = false
 
 func reload():
@@ -119,13 +128,7 @@ func die():
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
 	
-	# Return bullet to player before restarting
-	if current_bullet != null and is_instance_valid(current_bullet):
-		current_bullet.return_to_player()
-		await get_tree().create_timer(0.5).timeout  # Wait for bullet to return
-	else:
-		await get_tree().create_timer(1.5).timeout  # Normal death delay
-	
+	await get_tree().create_timer(1.5).timeout
 	get_tree().reload_current_scene()
 	
 func start(pos):
