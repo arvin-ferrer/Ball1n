@@ -131,8 +131,14 @@ func die():
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
 	
+	if current_bullet != null and is_instance_valid(current_bullet):
+		current_bullet.queue_free()
+		current_bullet = null 
+		
 	await get_tree().create_timer(1.5).timeout
 	get_tree().reload_current_scene()
+	
+	has_bullet = true
 	
 func start(pos):
 	position = pos
