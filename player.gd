@@ -1,67 +1,57 @@
 extends CharacterBody2D 
 signal hit
+
 @export var speed = 400
 @export var bullet_scene: PackedScene
-@export var level_label: Label
-@export var popup_label: Label
+
+@export var dash_speed = 1200  
+@export var dash_duration = 0.2 
+@export var dash_cooldown = 0.8
+@onready var dash_particles = $DashParticles
+@onready var bullet_tracker = $BulletTracker 
+var is_dashing = false
+var can_dash = true
 var screen_size
 var has_bullet = true
+
+
+@export var level_label: Label
+@export var popup_label: Label
 var max_health: int = 3
 var current_health = max_health
-var heart_list : Array[TextureRect]
+var heart_list : Array[TextureRect] = []
 var damage_cooldown = 1
 var time_since_hit = 0.0
-var current_bullet = null 
+var current_bullet = null
 var xp: int = 0
 var level: int = 1
 var xp_to_next_level: int = 100
-func gain_xp(amount):
-	xp += amount
-	
-	update_exp(xp) 
-	
-	if xp >= xp_to_next_level:
-		level_up()
 
-func level_up():
-	xp -= xp_to_next_level
-	level += 1
-	xp_to_next_level = int(xp_to_next_level * 1.5)
-	
-	update_exp(xp)
-	
-	level_label.text = "Level " + str(level)
-	show_level_up_popup()
-func show_level_up_popup():
-	popup_label.visible = true	
-	var tween = create_tween()
-	 #popup_label.position = get_viewport_rect().size / 2
-	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
-	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
-	
-	await tween.finished
-	popup_label.visible = false
-	popup_label.modulate.a = 1.0 
-	popup_label.position.y += 100
-	
-func update_exp(xp):
-	var exp_var = get_tree().get_current_scene().get_node("Bars/ExpBar")
-	
-	exp_var.value = xp
-	exp_var.max_value = xp_to_next_level
 func _ready():
 	screen_size = get_viewport_rect().size
-	var heart_container = get_tree().get_current_scene().get_node("Bars/HBoxContainer")
-	for child in heart_container.get_children():
-		heart_list.append(child)
 	
-	update_healthbar()	
-	update_exp(xp)
-	level_label.text = "Level " + str(level)
+	if level_label: level_label.text = "Level " + str(level)
+func update_bullet_tracker():
+	bullet_tracker.global_position = global_position 
 
+	if current_bullet == null or not is_instance_valid(current_bullet):
+		bullet_tracker.visible = false
+		return
+		
+	var dist = global_position.distance_to(current_bullet.global_position)
+	
+	if dist < 400: 
+		bullet_tracker.visible = false
+	else:
+		bullet_tracker.visible = true
+		bullet_tracker.look_at(current_bullet.global_position)
 func _physics_process(_delta):
 	time_since_hit += _delta
-	# Movement Logic
+	look_at(get_global_mouse_position())
+	update_bullet_tracker()
+	if is_dashing:
+		move_and_slide()
+		return 
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
@@ -72,30 +62,44 @@ func _physics_process(_delta):
 	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
 	
-	look_at(get_global_mouse_position())
-	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
+
+	if Input.is_action_just_pressed("dash") and can_dash:
+		start_dash()
+
 	move_and_slide()
-	
-	# Shooting
+
 	if Input.is_action_just_pressed("shoot"):
 		if has_bullet:
 			fire_bullet()
-		else:
-			print("no bullet")
-	
-	# Enemy Collision Check
+
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		if collider.is_in_group("enemies") and time_since_hit >= damage_cooldown:
 			take_damage(1)
 			time_since_hit = 0.0
-			
+func start_dash():
+	is_dashing = true
+	can_dash = false
+	
+	dash_particles.emitting = true 
+	
+	if velocity == Vector2.ZERO:
+		velocity = Vector2.RIGHT.rotated(rotation) * dash_speed
+	else:
+		velocity = velocity.normalized() * dash_speed
+		
+	await get_tree().create_timer(dash_duration).timeout
+	is_dashing = false
+	velocity = Vector2.ZERO 
+	
+	await get_tree().create_timer(dash_cooldown).timeout
+	can_dash = true
 func fire_bullet():
 	if bullet_scene == null:
 		print("ERROR: No Bullet Scene assigned!")
@@ -109,8 +113,7 @@ func fire_bullet():
 
 func reload():
 	has_bullet = true
-	current_bullet = null  # Clear bullet reference
-
+	current_bullet = null 
 func take_damage(amount):
 	current_health -= amount
 	current_health = clamp(current_health, 0, max_health)
