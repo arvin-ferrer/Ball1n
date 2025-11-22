@@ -18,7 +18,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 size = Vector2(128, 128)
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_4flbx")
 bullet_scene = ExtResource("2_i3pqv")
 
@@ -29,3 +30,16 @@ sprite_frames = SubResource("SpriteFrames_onrkg")
 shape = SubResource("RectangleShape2D_onrkg")
 
 [node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(79, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(20, 9)
+zoom = Vector2(1.25, 1.25)
+process_callback = 0
+limit_left = 16
+limit_top = -4
+limit_right = 1923
+limit_bottom = 1068
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true

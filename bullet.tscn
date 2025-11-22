@@ -7,7 +7,7 @@
 size = Vector2(24, 26)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v8qja"]
-radius = 22.0
+radius = 34.0
 
 [node name="Bullet" type="CharacterBody2D"]
 script = ExtResource("1_v8qja")
@@ -20,9 +20,10 @@ texture = ExtResource("1_v7oki")
 shape = SubResource("RectangleShape2D_v8qja")
 
 [node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
-position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_v8qja")
 
-[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
+[connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]
