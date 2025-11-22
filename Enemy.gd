@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 @export var speed = 200
+@export var xp_reward = 20 
+
 var player = null
 
 func _ready():
@@ -15,6 +17,8 @@ func _physics_process(delta):
 		velocity = direction * speed
 		move_and_slide()
 		
-	
+
 func die():
-	queue_free() 
+	if player != null and player.has_method("gain_xp"):
+		player.gain_xp(xp_reward)
+	queue_free()

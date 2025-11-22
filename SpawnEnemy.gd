@@ -12,8 +12,8 @@ func _on_spawn_timer_timeout() -> void:
 	var pos = curve.sample_baked(percent_position*curve.get_baked_length());
 	
 	print("spawn at: ")
-	print(pos)
+	print(pos + global_position)
 	
 	var enemy_instance = enemy.instantiate()
-	enemy_instance.position = pos
+	enemy_instance.position = pos+global_position
 	get_parent().add_child(enemy_instance)
