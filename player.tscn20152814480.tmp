@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=3 uid="uid://fklfw2j7lip2"]
+
+[ext_resource type="Script" uid="uid://fehhrvrc5aub" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://d2pqny5xdpl60" path="res://special_bullet.tscn" id="3_hqtel"]
+[ext_resource type="Texture2D" uid="uid://b1yre8so81545" path="res://tileset/spr_alex.png" id="3_i3pqv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
+atlas = ExtResource("3_i3pqv")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sweqy"]
+atlas = ExtResource("3_i3pqv")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
+atlas = ExtResource("3_i3pqv")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jxqw"]
+atlas = ExtResource("3_i3pqv")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqtel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sweqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hs0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jxqw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(49, 62)
+
+[sub_resource type="Gradient" id="Gradient_i3pqv"]
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_4flbx")
+bullet_scene = ExtResource("2_i3pqv")
+knockback_bullet_scene = ExtResource("3_hqtel")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 8)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(79, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(24, 1)
+scale = Vector2(0.98349583, 1)
+zoom = Vector2(1.25, 1.25)
+process_callback = 0
+limit_enabled = false
+limit_left = 17
+limit_top = -7
+limit_right = 1969
+limit_bottom = 1150
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="DashParticles" type="CPUParticles2D" parent="."]
+emitting = false
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.24
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+scale_amount_max = 73.17
+color_ramp = SubResource("Gradient_i3pqv")
+
+[node name="BulletTracker" type="Node2D" parent="."]
+z_index = 10
+position = Vector2(50, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="BulletTracker"]
+color = Color(0.9999998, 0.15698895, 0.33583122, 1)
+polygon = PackedVector2Array(68, 79, 140, 88, 91, 36, 116, 75)
