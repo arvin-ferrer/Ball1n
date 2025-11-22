@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://fklfw2j7lip2"]
+[gd_scene load_steps=6 format=3 uid="uid://fklfw2j7lip2"]
 
 [ext_resource type="Script" uid="uid://fehhrvrc5aub" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="2_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="2_onrkg"]
-[ext_resource type="PackedScene" uid="uid://d3m6c4je48grl" path="res://enemy.tscn" id="4_hqtel"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
 animations = [{
@@ -30,7 +29,3 @@ sprite_frames = SubResource("SpriteFrames_onrkg")
 shape = SubResource("RectangleShape2D_onrkg")
 
 [node name="Muzzle" type="Marker2D" parent="."]
-
-[node name="Enemy" parent="." instance=ExtResource("4_hqtel")]
-
-[node name="Enemy2" parent="." instance=ExtResource("4_hqtel")]
