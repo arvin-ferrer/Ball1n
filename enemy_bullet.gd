@@ -1,6 +1,5 @@
 extends CharacterBody2D
 @export var speed = 750
-@export var damage = 1
 
 
 func _ready():
@@ -15,11 +14,4 @@ func _ready():
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		var collider = collision.get_collider()
-		print(collider)
-		if collider.is_in_group("Player"):
-			collider.takeDamage(damage)
-			queue_free()
-		else:
-			queue_free()
-			return
+		queue_free()
