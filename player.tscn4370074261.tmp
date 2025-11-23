@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://fehhrvrc5aub" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="2_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://bakdau8muinxa" path="res://grenade.tscn" id="2_nvl01"]
 [ext_resource type="PackedScene" uid="uid://d2pqny5xdpl60" path="res://special_bullet.tscn" id="3_hqtel"]
 [ext_resource type="PackedScene" uid="uid://bflqel3mtm5ij" path="res://fast_ball.tscn" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://cf5fgkkheaudi" path="res://new_sprites/character.png" id="5_n7ghd"]
@@ -24,23 +23,24 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
-size = Vector2(52, 76)
+size = Vector2(22, 14)
 
 [sub_resource type="Gradient" id="Gradient_i3pqv"]
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_4flbx")
-grenade_scene = ExtResource("2_nvl01")
 bullet_scene = ExtResource("2_i3pqv")
 knockback_bullet_scene = ExtResource("3_hqtel")
 fast_bullet_scence = ExtResource("4_sweqy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 1.0000019)
 scale = Vector2(1.1323245, 1.1323242)
 sprite_frames = SubResource("SpriteFrames_nvl01")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_onrkg")
 
 [node name="Muzzle" type="Marker2D" parent="."]
@@ -74,10 +74,11 @@ color_ramp = SubResource("Gradient_i3pqv")
 
 [node name="BulletTracker" type="Node2D" parent="."]
 z_index = 10
+position = Vector2(50, 0)
 
 [node name="Polygon2D" type="Polygon2D" parent="BulletTracker"]
 color = Color(0.9999998, 0.15698895, 0.33583122, 1)
-polygon = PackedVector2Array(104, 24, 176, 0, 104, -24, 136, 0)
+polygon = PackedVector2Array(68, 79, 140, 88, 91, 36, 116, 75)
 
 [node name="PlayerDeathMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_sweqy")

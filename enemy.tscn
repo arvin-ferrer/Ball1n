@@ -1,38 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3m6c4je48grl"]
+[gd_scene load_steps=5 format=3 uid="uid://d3m6c4je48grl"]
 
 [ext_resource type="Script" uid="uid://d1b073pqkagjn" path="res://Enemy.gd" id="1_4gyqm"]
-[ext_resource type="Texture2D" uid="uid://bjabxyx228dcp" path="res://tileset/spr_tom.png" id="2_4gyqm"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
-atlas = ExtResource("2_4gyqm")
-region = Rect2(0, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qi2p4"]
-atlas = ExtResource("2_4gyqm")
-region = Rect2(16, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
-atlas = ExtResource("2_4gyqm")
-region = Rect2(32, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_epg4t"]
-atlas = ExtResource("2_4gyqm")
-region = Rect2(48, 0, 16, 32)
+[ext_resource type="Texture2D" uid="uid://b5ba8w46wlpb4" path="res://new_sprites/slime.png" id="2_4gyqm"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qi2p4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4gyqm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qi2p4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_iifgy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_epg4t")
+"texture": ExtResource("2_4gyqm")
 }],
 "loop": true,
 "name": &"default",
@@ -40,16 +15,16 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gyqm"]
-size = Vector2(8.599999, 13.799999)
+size = Vector2(8.599999, 8.799999)
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_4gyqm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(3, 3)
+scale = Vector2(1.0802554, 1.0802555)
 sprite_frames = SubResource("SpriteFrames_qi2p4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemies"]]
-position = Vector2(0.49999952, 4.500001)
+position = Vector2(0.49999952, -1.0000012)
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_4gyqm")

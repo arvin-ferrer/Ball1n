@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdvcbyy4o1wos"]
 
 [ext_resource type="Script" uid="uid://5j2dkw0j47ph" path="res://enemy_bullet.gd" id="1_gl7bs"]
-[ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="2_mgp66"]
+[ext_resource type="Texture2D" uid="uid://cp6c6ioucbve7" path="res://new_sprites/fireball.png" id="2_gl7bs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v8qja"]
 size = Vector2(24, 26)
@@ -11,8 +11,9 @@ collision_layer = 3
 script = ExtResource("1_gl7bs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_mgp66")
+position = Vector2(-17, 0)
+scale = Vector2(0.6263158, 0.6263158)
+texture = ExtResource("2_gl7bs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_v8qja")
