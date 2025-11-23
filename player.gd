@@ -20,6 +20,8 @@ var knockback_bullet_ready = true
 
 @export var level_label: Label
 @export var popup_label: Label
+@export var knockback_ready_label: Label
+
 var max_health: int = 3
 var current_health = max_health
 var heart_list : Array[TextureRect] = []
@@ -32,6 +34,9 @@ var xp_to_next_level: int = 100
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	
+	print("Level Up Popup Label:", popup_label != null)
+	print("Knockback Ready Label:", knockback_ready_label != null)
 	
 	if level_label: level_label.text = "Level " + str(level)
 
@@ -50,13 +55,12 @@ func _ready():
 	update_healthbar()      
 	update_exp(xp) 
 
-func update_exp(xp):
-
+func update_exp(expe):
 	var exp_var = get_tree().get_current_scene().get_node("Bars/ExpBar")
 	
 	# Safety check for exp_var
 	if exp_var:
-		exp_var.value = xp
+		exp_var.value = expe
 		exp_var.max_value = xp_to_next_level
 		
 func gain_xp(amount):
@@ -79,6 +83,42 @@ func level_up():
 	update_exp(xp)
 	
 	show_level_up_popup()
+
+func show_knockback_ready_popup():
+	#if not knockback_ready_label or not is_instance_valid(knockback_ready_label):
+		#return
+	#
+	#knockback_ready_label.visible = true
+	#knockback_ready_label.modulate.a = 1.0
+	#
+	#var tween = create_tween()
+	#
+	#knockback_ready_label.text = "Knockback Bullet Ready"
+	#tween.tween_property(knockback_ready_label, "position", knockback_ready_label.position + Vector2(0, -100), 2.0)
+	#tween.parallel().tween_property(knockback_ready_label, "modulate:a", 0.0, 2.0)
+	#
+	#await tween.finished
+	#knockback_ready_label.visible = false
+	#knockback_ready_label.modulate.a = 1.0 
+	#knockback_ready_label.position.y += 100 # Reset position down
+	
+		# Check if label is assigned before animating
+	if not popup_label or not is_instance_valid(popup_label):
+		return
+		
+	popup_label.visible = true
+	popup_label.modulate.a = 1.0 # Ensure full visibility at start
+	
+	var tween = create_tween()
+	
+	popup_label.text = "Knockback Bullet Ready"
+	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
+	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
+	
+	await tween.finished
+	popup_label.visible = false
+	popup_label.modulate.a = 1.0 
+	popup_label.position.y += 100 # Reset position down
 	
 func show_level_up_popup():
 	# Check if label is assigned before animating
@@ -90,6 +130,7 @@ func show_level_up_popup():
 	
 	var tween = create_tween()
 	
+	popup_label.text = "Leveled Up!"
 	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
 	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
 	
@@ -151,7 +192,7 @@ func _physics_process(_delta):
 		if has_bullet:
 			fire_bullet()
 	
-	if Input.is_action_just_pressed("knockback_bullet") and knockback_bullet_ready and has_bullet:
+	if Input.is_action_just_pressed("knockback_bullet") and knockback_bullet_ready:
 		fire_knockback_bullet()
 
 	for i in get_slide_collision_count():
@@ -207,12 +248,10 @@ func fire_knockback_bullet():
 	special_bullet.rotation = rotation
 	get_tree().root.add_child(special_bullet)
 	
-	has_bullet = false
-	current_bullet = special_bullet
-	
 	
 	knockback_bullet_ready = false
 	await get_tree().create_timer(knockback_cooldown).timeout
+	show_knockback_ready_popup()
 	knockback_bullet_ready = true
 	
 func reload():
