@@ -262,7 +262,8 @@ func take_damage(amount):
 	current_health -= amount
 	current_health = clamp(current_health, 0, max_health)
 	update_healthbar()
-	
+	if current_health >0:
+		$PlayerHitMusic.play()
 	if current_health <= 0:
 		die()
 	
@@ -271,6 +272,7 @@ func update_healthbar():
 		heart_list[i].visible = i < current_health
 		
 func die():
+	$PlayerDeathMusic.play()
 	hide()
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
@@ -287,3 +289,12 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func playEnemyDSound():
+	$EnemyDeathMusic.play()
+
+func playBossHSound():
+	$BossHitMusic.play()
+	
+func playBossDSound():
+	$BossDeathMusic.play()

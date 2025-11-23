@@ -55,5 +55,6 @@ func apply_knockback(direction: Vector2, force: float, knockback_duration: float
 func die():
 	if player != null and is_instance_valid(player) and player.has_method("gain_xp"):
 		player.gain_xp(xp_reward)
+		player.playEnemyDSound()
 	
 	queue_free()
