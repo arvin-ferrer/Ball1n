@@ -124,7 +124,6 @@ func show_knockback_ready_popup():
 	popup_label.position.y += 100 # Reset position down
 	
 func show_level_up_popup():
-	# Check if label is assigned before animating
 	if not popup_label or not is_instance_valid(popup_label):
 		return
 		
@@ -160,7 +159,13 @@ func update_bullet_tracker():
 		
 func _physics_process(_delta):
 	time_since_hit += _delta
-	look_at(get_global_mouse_position())
+	$Muzzle.look_at(get_global_mouse_position())
+	
+	if get_global_mouse_position().x < global_position.x:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+		
 	update_bullet_tracker()
 	
 	if is_dashing:
@@ -236,7 +241,7 @@ func fire_bullet():
 		return
 	var b = bullet_scene.instantiate()
 	b.global_position = $Muzzle.global_position
-	b.rotation = rotation
+	b.rotation = $Muzzle.rotation
 	get_tree().root.add_child(b)
 	current_bullet = b 
 	has_bullet = false

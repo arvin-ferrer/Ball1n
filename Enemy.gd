@@ -27,17 +27,16 @@ func find_player():
 	
 	if player == null:
 		print("WARNING: Enemy couldn't find player!")
-
 func _physics_process(delta):
-	# If we still don't have a player reference, try to find it
 	if player == null or not is_instance_valid(player):
 		find_player()
 		return
-	
-	look_at(player.global_position)
-	
+	if player.global_position.x < global_position.x:
+		$AnimatedSprite2D.flip_h = true 
+	else:
+		$AnimatedSprite2D.flip_h = false
 	var direction = global_position.direction_to(player.global_position)
-	
+
 	if knockback_timer > 0.0:
 		velocity = knockback
 		knockback_timer -= delta
