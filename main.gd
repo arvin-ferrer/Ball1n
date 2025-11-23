@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var win_label = $CanvasLayer/WinLabel 
+@onready var boss_label = $CanvasLayer/BossLabel
 var boss_count = 0
 
 func _ready():
@@ -8,24 +9,23 @@ func _ready():
 	boss_count = bosses.size()
 	
 	print("Game Started. Bosses remaining: ", boss_count)
-	
+	update_label()
 	for boss in bosses:
 		boss.boss_died.connect(_on_boss_died)
 
 func _on_boss_died():
 	boss_count -= 1
 	print("Boss Defeated! Remaining: ", boss_count)
-	
+	update_label()
 	if boss_count <= 0:
 		win_game()
+func update_label():
+	if boss_label:
+		boss_label.text = "Bosses Left: " + str(boss_count)
 func win_game():
 	print("YOU WIN!")
-	
-	# 1. Show the Win Text
 	if win_label:
-		win_label.visible = true
-		
-
+		win_label.visible = true		
 	get_tree().paused = true
 	
 	var timer = get_tree().create_timer(3.0)
