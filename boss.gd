@@ -4,12 +4,12 @@ extends CharacterBody2D
 @export var xp_reward = 100
 @export var hp = 3
 @export var bullet_scene: PackedScene # Drag your bullet scene here in the Inspector
-@export var rotation_speed: float = 2.0
 @export var fire_rate: float = 0.5
 
 @onready var muzzle: Marker2D = $Muzzle
 @onready var detection_area: Area2D = $DetectionArea
 @onready var shoot_timer: Timer = $ShootTimer
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var player = null
 
 func _ready():
@@ -21,6 +21,7 @@ func _ready():
 	shoot_timer.wait_time = fire_rate
 
 func _process(delta):
+	sprite.rotation = -global_rotation
 	add_to_group("enemies")  # Important for bullet collision
 	find_player()
 func find_player():
@@ -56,10 +57,11 @@ func _on_shoot_timer_timeout():
 func shoot():
 	# Instantiate the bullet and add it to the scene root (or a bullet container)
 	var bullet_instance = bullet_scene.instantiate()
-	get_tree().current_scene.add_child(bullet_instance)
 	
 	# Set the bullet's position and rotation to the muzzle's position and rotation
 	bullet_instance.global_position = muzzle.global_position
+	bullet_instance.global_rotation = global_rotation
+	get_tree().current_scene.add_child(bullet_instance)
 	
 func die():
 	hp -= 1
@@ -69,7 +71,7 @@ func die():
 		queue_free()
 	# Optional: Call a function on the bullet to set its direction/velocity if needed
 	#if "set_direction" in bullet_instance:
-		#bullet_instance.set_direction(Boss.transform.global_rotation)
+	
 #
 #func _ready():
 	#add_to_group("enemies")  # Important for bullet collision

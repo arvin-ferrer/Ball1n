@@ -1,15 +1,13 @@
 extends CharacterBody2D
 @export var speed = 750
 @export var damage = 1
-var screen_size
+
 
 func _ready():
-	screen_size = get_viewport_rect().size
+	#set_collision_mask_value(2, false) 
+	#set_collision_mask_value(1, true)
 	
-	set_collision_mask_value(2, false) 
-	set_collision_mask_value(1, true)
-	
-	velocity = Vector2.RIGHT.rotated(rotation) * speed
+	velocity = Vector2.RIGHT.rotated(global_rotation) * speed
 	
 	await get_tree().create_timer(0.15).timeout
 	modulate = Color(1, 1, 1)
