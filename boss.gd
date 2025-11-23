@@ -9,7 +9,6 @@ extends CharacterBody2D
 @export var distanceForTarget: float = 700
 
 @onready var muzzle: Marker2D = $Muzzle
-@onready var detection_area: Area2D = $DetectionArea
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var HPBar: ProgressBar = $HPBar
