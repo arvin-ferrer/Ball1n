@@ -1,12 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://bakdau8muinxa"]
 
 [ext_resource type="Script" uid="uid://cm4iaqulevw33" path="res://Grenade.gd" id="1_24g56"]
-[ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="1_gju2f"]
+[ext_resource type="Texture2D" uid="uid://cq1mq862mq1oq" path="res://new_sprites/Bomb.png" id="2_24g56"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_24g56"]
 radius = 10.588139
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ga5sg"]
+radius = 7.0
 
 [sub_resource type="Gradient" id="Gradient_24g56"]
 
@@ -16,8 +17,8 @@ linear_damp = 3.0
 script = ExtResource("1_24g56")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.30276883)
-texture = ExtResource("1_gju2f")
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("2_24g56")
 
 [node name="BlastRadius" type="Area2D" parent="."]
 scale = Vector2(0.46151584, 0.46151584)
@@ -27,7 +28,7 @@ scale = Vector2(31.71684, 32.01651)
 shape = SubResource("CircleShape2D_24g56")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(8.215766, 8.215766)
+scale = Vector2(2, 2)
 shape = SubResource("CircleShape2D_ga5sg")
 
 [node name="Timer" type="Timer" parent="."]
