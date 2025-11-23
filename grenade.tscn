@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://bakdau8muinxa"]
+
+[ext_resource type="Script" uid="uid://cm4iaqulevw33" path="res://Grenade.gd" id="1_24g56"]
+[ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="1_gju2f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_24g56"]
+radius = 10.588139
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ga5sg"]
+
+[sub_resource type="Gradient" id="Gradient_24g56"]
+
+[node name="Grenade" type="RigidBody2D"]
+gravity_scale = 0.0
+linear_damp = 3.0
+script = ExtResource("1_24g56")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.30276883)
+texture = ExtResource("1_gju2f")
+
+[node name="BlastRadius" type="Area2D" parent="."]
+scale = Vector2(0.46151584, 0.46151584)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlastRadius"]
+scale = Vector2(31.71684, 32.01651)
+shape = SubResource("CircleShape2D_24g56")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(8.215766, 8.215766)
+shape = SubResource("CircleShape2D_ga5sg")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+scale = Vector2(0.571082, 0.54441744)
+emitting = false
+amount = 18
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 10.24
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+damping_min = 5.155
+damping_max = 5.155
+scale_amount_min = 11.31
+scale_amount_max = 186.58
+color_ramp = SubResource("Gradient_24g56")
