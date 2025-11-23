@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhfr8xl27efy6"]
+
+[ext_resource type="Script" uid="uid://dp7los24xx3co" path="res://MainMenu.gd" id="1_06t4h"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_06t4h")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 36.000004
+offset_right = 296.0
+offset_bottom = 59.000004
+scale = Vector2(4.216291, 4.181277)
+text = "You Win!"
+
+[node name="BtnPlay" type="Button" parent="."]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 140.0
+offset_right = 398.0
+offset_bottom = 171.0
+text = "Play Again"
+
+[node name="BtnQuit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 182.0
+offset_right = 376.0
+offset_bottom = 213.0
+text = "Quit"
