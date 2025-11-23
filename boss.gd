@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var speed = 300
 @export var xp_reward = 100
 @export var hp = 5
+@export var MaxHp = 5
 @export var bullet_scene: PackedScene # Drag your bullet scene here in the Inspector
 @export var fire_rate: float = 0.5
 
@@ -10,6 +11,7 @@ extends CharacterBody2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var HPBar: ProgressBar = $HPBar
 var player = null
 
 func _ready():
@@ -19,11 +21,15 @@ func _ready():
 	# Connect the timeout signal from ShootTimer
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	shoot_timer.wait_time = fire_rate
+	HPBar.max_value = MaxHp
+	HPBar.value = hp
 
 func _process(delta):
 	sprite.rotation = -global_rotation
 	add_to_group("enemies")  # Important for bullet collision
 	find_player()
+	update_HpBar()
+	
 func find_player():
 	## Try multiple methods to find the player
 	player = get_tree().get_first_node_in_group("Player")
@@ -69,3 +75,11 @@ func die():
 		if player != null and is_instance_valid(player) and player.has_method("gain_xp"):
 			player.gain_xp(xp_reward)
 		queue_free()
+		
+func update_HpBar():
+	HPBar.value = hp
+	if hp >= MaxHp:
+		HPBar.visible = false
+	else:
+		HPBar.visible = true
+	
