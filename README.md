@@ -29,7 +29,7 @@ Defeat 11 bosses, level up, and master the art of the ricochet in this chaotic a
 3.  **Survive:** Enemies will swarm you while you are unarmed.
 
 ### Skills
-* **Teleport (R):** Shot your bullet into a dangerous corner? Press **R** to instantly warp to it, catch it, and reload immediately. Great for aggressive plays.
+* **Teleport (R):** Shot your bullet into a dangerous corner? Press **R** to instantly warp to it, catch it, and reload immediately.
 * **Grenade (G):** Crowd control. Throws a bomb that slows down and detonates after 2 seconds.
 * **Fastball (F):** A quick burst of speed to dodge enemy attacks or chase your bullet.
 
