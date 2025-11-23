@@ -4,7 +4,7 @@
 > **A high-stakes top-down shooter submitted for Game Jam+ 2025.** > *Theme: Small Scope, Big Fun*
 
 You have a gun. You have **one** bullet. If you miss, you have to go get it.  
-Defeat 12 bosses, level up, and master the art of the ricochet in this chaotic arena shooter.
+Defeat 11 bosses, level up, and master the art of the ricochet in this chaotic arena shooter.
 
 ---
 
