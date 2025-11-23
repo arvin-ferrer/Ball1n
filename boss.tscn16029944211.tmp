@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgoxyd8mwhy8w"]
+[gd_scene load_steps=11 format=3 uid="uid://bgoxyd8mwhy8w"]
 
 [ext_resource type="Script" uid="uid://bnt3o8tk45iy7" path="res://boss.gd" id="1_6xxrv"]
 [ext_resource type="Texture2D" uid="uid://bpmini2o51m07" path="res://tileset/spr_ester.png" id="2_6xxrv"]
@@ -44,9 +44,18 @@ animations = [{
 radius = 18.387102
 height = 63.353645
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6xxrv"]
+radius = 663.4
+
 [node name="Boss" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_6xxrv")
+speed = null
+xp_reward = null
+hp = null
+MaxHp = null
 bullet_scene = ExtResource("2_skx2t")
+fire_rate = null
+distanceForTarget = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.9926757, -1.8482207)
@@ -60,6 +69,13 @@ shape = SubResource("CapsuleShape2D_skx2t")
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(167.43597, -0.38412476)
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_6xxrv")
 
 [node name="ShootTimer" type="Timer" parent="."]
 

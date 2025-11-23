@@ -6,18 +6,19 @@ extends CharacterBody2D
 @export var MaxHp = 5
 @export var bullet_scene: PackedScene # Drag your bullet scene here in the Inspector
 @export var fire_rate: float = 0.5
+@export var distanceForTarget: float = 700
 
 @onready var muzzle: Marker2D = $Muzzle
 @onready var detection_area: Area2D = $DetectionArea
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var HPBar: ProgressBar = $HPBar
+
 var player = null
+var currDistance
+var is_shooting = false
 
 func _ready():
-	# Connect signals from DetectionArea
-	detection_area.body_entered.connect(_on_detection_area_body_entered)
-	detection_area.body_exited.connect(_on_detection_area_body_exited)
 	# Connect the timeout signal from ShootTimer
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	shoot_timer.wait_time = fire_rate
@@ -45,16 +46,14 @@ func find_player():
 		print("WARNING: Enemy couldn't find player!")
 	if player:
 		look_at(player.global_position)
-
-func _on_detection_area_body_entered(body):
-	# Check if the entered body is the player by checking its group
-	if player:
-		shoot_timer.start()
-
-func _on_detection_area_body_exited(body):
-	if body == player:
-		player = null
-		shoot_timer.stop()
+		currDistance = global_position.distance_to(player.global_position)
+		if currDistance<=distanceForTarget and is_shooting == false:
+			shoot_timer.start()
+			is_shooting = true
+		elif currDistance>distanceForTarget and is_shooting == true:
+			shoot_timer.start()
+			is_shooting = false
+	
 
 func _on_shoot_timer_timeout():
 	if player:
