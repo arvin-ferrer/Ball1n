@@ -1,11 +1,14 @@
 extends CharacterBody2D
 signal hit
-
+@export var grenade_scene: PackedScene
+@export var grenade_speed = 600
+@export var grenade_cooldown = 1 # grenade cooldown
+var can_throw_grenade = true
 @export var speed = 400
 @export var bullet_scene: PackedScene
 @export var knockback_bullet_scene: PackedScene
 @export var fast_bullet_scence: PackedScene
-@export var teleport_cooldown = 3.0 # time before you can use it again
+@export var teleport_cooldown = 3.0 
 var can_teleport = true
 @export var dash_speed = 1200  
 @export var dash_duration = 0.2 
@@ -183,6 +186,8 @@ func _physics_process(_delta):
 		velocity.y += 1
 	if Input.is_action_just_pressed("teleport"):
 		teleport_to_bullet()
+	if Input.is_action_just_pressed("grenade") and can_throw_grenade:
+		throw_grenade()
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()
@@ -366,3 +371,34 @@ func teleport_to_bullet():
 	await get_tree().create_timer(teleport_cooldown).timeout
 	can_teleport = true
 	print("Teleport Ready!")
+	
+func throw_grenade():
+	if grenade_scene == null:
+		print("Error: Assign Grenade Scene in Player Inspector!")
+		return
+
+	var g = grenade_scene.instantiate()
+	
+	g.global_position = $Muzzle.global_position
+	
+	g.set_collision_mask_value(1, false) 
+	g.set_collision_mask_value(2, false)
+	
+	get_tree().root.add_child(g)
+	
+	
+	await get_tree().create_timer(0.1).timeout
+	if is_instance_valid(g):
+		g.set_collision_mask_value(1, true) 
+	var mouse_pos = get_global_mouse_position()
+	var throw_dir = $Muzzle.global_position.direction_to(mouse_pos)
+	
+	g.linear_velocity = throw_dir * grenade_speed
+	
+	get_tree().root.add_child(g)
+	
+	can_throw_grenade = false
+	print("Grenade out!")
+	await get_tree().create_timer(grenade_cooldown).timeout
+	can_throw_grenade = true
+	print("Grenade Ready")
