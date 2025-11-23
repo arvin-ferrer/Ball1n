@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://fklfw2j7lip2"]
+[gd_scene load_steps=14 format=3 uid="uid://fklfw2j7lip2"]
 
 [ext_resource type="Script" uid="uid://fehhrvrc5aub" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="2_i3pqv"]
@@ -6,10 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://b1yre8so81545" path="res://tileset/spr_alex.png" id="3_i3pqv"]
 [ext_resource type="AudioStream" uid="uid://b1buc6lphanga" path="res://sfx/pacman_death.wav" id="5_sweqy"]
 [ext_resource type="AudioStream" uid="uid://qajtw3sm5eoc" path="res://sfx/pacman_eatghost.wav" id="6_2hs0m"]
-[ext_resource type="AudioStream" uid="uid://djfymsgnm665n" path="res://sfx/ouchnoise-96832.mp3" id="7_dw050"]
-[ext_resource type="AudioStream" uid="uid://blcyyes8dkf8o" path="res://sfx/dramatic-death-collapse-352720.mp3" id="8_b26j0"]
-[ext_resource type="AudioStream" uid="uid://la1gbrt84hx2" path="res://sfx/pain-sound-in-mask-38698.mp3" id="9_b26j0"]
-[ext_resource type="PackedScene" uid="uid://bflqel3mtm5ij" path="res://fast_ball.tscn" id="4_sweqy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
 atlas = ExtResource("3_i3pqv")
@@ -57,7 +53,6 @@ collision_layer = 2
 script = ExtResource("1_4flbx")
 bullet_scene = ExtResource("2_i3pqv")
 knockback_bullet_scene = ExtResource("3_hqtel")
-fast_bullet_scence = ExtResource("4_sweqy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -110,12 +105,3 @@ stream = ExtResource("5_sweqy")
 
 [node name="EnemyDeathMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_2hs0m")
-
-[node name="BossHitMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_dw050")
-
-[node name="BossDeathMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_b26j0")
-
-[node name="PlayerHitMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_b26j0")

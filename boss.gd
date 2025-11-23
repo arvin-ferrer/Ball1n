@@ -69,9 +69,13 @@ func shoot():
 	
 func die():
 	hp -= 1
+	if hp != 0:
+		if player != null and is_instance_valid(player) and player.has_method("gain_xp"):
+			player.playBossHSound()
 	if hp == 0:
 		if player != null and is_instance_valid(player) and player.has_method("gain_xp"):
 			player.gain_xp(xp_reward)
+			player.playBossDSound()
 		queue_free()
 		
 func update_HpBar():
