@@ -87,6 +87,9 @@ func level_up():
 	if level_label and is_instance_valid(level_label):
 		level_label.text = "Level " + str(level)
 		
+	max_health += 1
+	current_health = max_health
+	update_healthbar()
 	update_exp(xp)
 	
 	show_level_up_popup()

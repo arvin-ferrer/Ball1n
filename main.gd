@@ -13,7 +13,7 @@ func _ready():
 		boss.boss_died.connect(_on_boss_died)
 
 func _on_boss_died():
-	boss_count -= 13
+	boss_count -= 1
 	print("Boss Defeated! Remaining: ", boss_count)
 	
 	if boss_count <= 0:
