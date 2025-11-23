@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://djfymsgnm665n" path="res://sfx/ouchnoise-96832.mp3" id="7_dw050"]
 [ext_resource type="AudioStream" uid="uid://blcyyes8dkf8o" path="res://sfx/dramatic-death-collapse-352720.mp3" id="8_b26j0"]
 [ext_resource type="AudioStream" uid="uid://la1gbrt84hx2" path="res://sfx/pain-sound-in-mask-38698.mp3" id="9_b26j0"]
+[ext_resource type="PackedScene" uid="uid://bflqel3mtm5ij" path="res://fast_ball.tscn" id="4_sweqy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
 atlas = ExtResource("3_i3pqv")
@@ -56,6 +57,7 @@ collision_layer = 2
 script = ExtResource("1_4flbx")
 bullet_scene = ExtResource("2_i3pqv")
 knockback_bullet_scene = ExtResource("3_hqtel")
+fast_bullet_scence = ExtResource("4_sweqy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)
