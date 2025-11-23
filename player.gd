@@ -4,10 +4,12 @@ signal hit
 @export var speed = 400
 @export var bullet_scene: PackedScene
 @export var knockback_bullet_scene: PackedScene
+@export var fast_bullet_scence: PackedScene
 
 @export var dash_speed = 1200  
 @export var dash_duration = 0.2 
 @export var knockback_cooldown = 5.0
+@export var fast_bullet_cooldown = 5.0
 @export var dash_cooldown = 0.8
 @onready var dash_particles = $DashParticles
 @onready var bullet_tracker = $BulletTracker 
@@ -16,6 +18,7 @@ var can_dash = true
 var screen_size
 var has_bullet = true
 var knockback_bullet_ready = true
+var fast_bullet_ready = true
 
 
 @export var level_label: Label
@@ -194,7 +197,10 @@ func _physics_process(_delta):
 	
 	if Input.is_action_just_pressed("knockback_bullet") and knockback_bullet_ready:
 		fire_knockback_bullet()
-
+	
+	if Input.is_action_just_pressed("fast_bullet") and fast_bullet_ready:
+		fire_fast_bullet()
+		
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
@@ -253,6 +259,40 @@ func fire_knockback_bullet():
 	await get_tree().create_timer(knockback_cooldown).timeout
 	show_knockback_ready_popup()
 	knockback_bullet_ready = true
+
+func fire_fast_bullet():
+	if fast_bullet_scence == null:
+		print("No Fast Ball Scene assigned!")
+		return
+	
+	var fast_ball = fast_bullet_scence.instantiate()
+	fast_ball.global_position = $Muzzle.global_position
+	fast_ball.rotation = rotation
+	get_tree().root.add_child(fast_ball)
+	
+	# Start cooldown
+	fast_bullet_ready = false
+	await get_tree().create_timer(fast_bullet_cooldown).timeout
+	show_fast_ball_ready_popup()
+	fast_bullet_ready = true
+
+func show_fast_ball_ready_popup():
+	if not popup_label or not is_instance_valid(popup_label):
+		return
+		
+	popup_label.visible = true
+	popup_label.modulate.a = 1.0
+	
+	var tween = create_tween()
+	
+	popup_label.text = "Fast Ball Ready!"
+	tween.tween_property(popup_label, "position", popup_label.position + Vector2(0, -100), 2.0)
+	tween.parallel().tween_property(popup_label, "modulate:a", 0.0, 2.0)
+	
+	await tween.finished
+	popup_label.visible = false
+	popup_label.modulate.a = 1.0 
+	popup_label.position.y += 100
 	
 func reload():
 	has_bullet = true

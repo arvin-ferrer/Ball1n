@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bflqel3mtm5ij"]
+
+[ext_resource type="PackedScene" uid="uid://lowsfuhgbtm4" path="res://bullet.tscn" id="1_hpa2p"]
+[ext_resource type="Script" uid="uid://bqf6vugnbidl5" path="res://fast_ball.gd" id="2_vt6mm"]
+
+[node name="Fast_ball" instance=ExtResource("1_hpa2p")]
+script = ExtResource("2_vt6mm")
+pierce_count = 3
+pierce_damage = 25
