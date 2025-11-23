@@ -5,7 +5,8 @@ signal hit
 @export var bullet_scene: PackedScene
 @export var knockback_bullet_scene: PackedScene
 @export var fast_bullet_scence: PackedScene
-
+@export var teleport_cooldown = 3.0 # time before you can use it again
+var can_teleport = true
 @export var dash_speed = 1200  
 @export var dash_duration = 0.2 
 @export var knockback_cooldown = 5.0
@@ -184,7 +185,8 @@ func _physics_process(_delta):
 		velocity.y -= 1
 	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
-	
+	if Input.is_action_just_pressed("teleport"):
+		teleport_to_bullet()
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()
@@ -343,3 +345,27 @@ func playBossHSound():
 	
 func playBossDSound():
 	$BossDeathMusic.play()
+func teleport_to_bullet():
+	if not can_teleport:
+		print("Teleport is on cooldown!")
+		return
+		
+	if current_bullet == null or not is_instance_valid(current_bullet):
+		print("No bullet to teleport to!")
+		return
+
+	global_position = current_bullet.global_position
+	
+	current_bullet.queue_free() 
+	current_bullet = null      
+	has_bullet = true           
+	
+	if dash_particles: 
+		dash_particles.emitting = true 
+	
+	
+	can_teleport = false
+	print("Teleported! Cooldown started.")
+	await get_tree().create_timer(teleport_cooldown).timeout
+	can_teleport = true
+	print("Teleport Ready!")
