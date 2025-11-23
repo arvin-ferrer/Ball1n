@@ -46,7 +46,7 @@ size = Vector2(49, 62)
 
 [sub_resource type="Gradient" id="Gradient_i3pqv"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_4flbx")
 bullet_scene = ExtResource("2_i3pqv")
@@ -56,7 +56,7 @@ knockback_bullet_scene = ExtResource("3_hqtel")
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_onrkg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
 position = Vector2(0.5, 8)
 shape = SubResource("RectangleShape2D_onrkg")
 
