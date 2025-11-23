@@ -16,7 +16,8 @@ Defeat 11 bosses, level up, and master the art of the ricochet in this chaotic a
 | **Aim** | **`Mouse Cursor`** | Look around. |
 | **Shoot** | **`Left Click`** | Fire your single bullet. Catch it to reload! |
 | **Grenade** | **`G`** | Throw an explosive charge. |
-| **Fastball** | **`F`** | Perform a high-speed dash/maneuver. |
+| **Fastball** | **`F`** | Additional bullet with extra speed |
+| **Dash** | **`Space`** | Perform a high-speed dash/maneuver. |
 | **Teleport** | **`R`** | Instantly teleport to your bullet's location and catch it. |
 
 ---
@@ -31,7 +32,7 @@ Defeat 11 bosses, level up, and master the art of the ricochet in this chaotic a
 ### Skills
 * **Teleport (R):** Shot your bullet into a dangerous corner? Press **R** to instantly warp to it, catch it, and reload immediately.
 * **Grenade (G):** Crowd control. Throws a bomb that slows down and detonates after 2 seconds.
-* **Fastball (F):** A quick burst of speed to dodge enemy attacks or chase your bullet.
+| **Fastball** | **`F`** | Additional bullet with extra speed |
 
 ### Progression
 * **XP System:** Defeat enemies to gain XP.
