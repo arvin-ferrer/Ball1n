@@ -124,7 +124,6 @@ func show_knockback_ready_popup():
 	popup_label.position.y += 100 # Reset position down
 	
 func show_level_up_popup():
-	# Check if label is assigned before animating
 	if not popup_label or not is_instance_valid(popup_label):
 		return
 		
