@@ -92,7 +92,7 @@ func show_knockback_ready_popup():
 	#if not knockback_ready_label or not is_instance_valid(knockback_ready_label):
 		#return
 	#
-	#knockback_ready_label.visible = true
+	#knockback_ready_label.visible = trddddsue
 	#knockback_ready_label.modulate.a = 1.0
 	#
 	#var tween = create_tween()
@@ -161,11 +161,7 @@ func update_bullet_tracker():
 func _physics_process(_delta):
 	time_since_hit += _delta
 	$Muzzle.look_at(get_global_mouse_position())
-	
-	if get_global_mouse_position().x < global_position.x:
-		$AnimatedSprite2D.flip_h = true
-	else:
-		$AnimatedSprite2D.flip_h = false
+	$AnimatedSprite2D.look_at(get_global_mouse_position())
 		
 	update_bullet_tracker()
 	
@@ -214,6 +210,7 @@ func _physics_process(_delta):
 		if collider.is_in_group("enemies") and time_since_hit >= damage_cooldown:
 			take_damage(1)
 			time_since_hit = 0.0
+
 			
 func start_dash():
 	is_dashing = true

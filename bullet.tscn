@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://lowsfuhgbtm4"]
 
-[ext_resource type="Texture2D" uid="uid://n3b5tkdvnp1o" path="res://icon.svg" id="1_v7oki"]
 [ext_resource type="Script" uid="uid://cq6pv3bbjnf55" path="res://Bullet.gd" id="1_v8qja"]
+[ext_resource type="Texture2D" uid="uid://cp6c6ioucbve7" path="res://new_sprites/fireball.png" id="2_v8qja"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v8qja"]
 size = Vector2(24, 26)
@@ -14,8 +14,9 @@ collision_layer = 2
 script = ExtResource("1_v8qja")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_v7oki")
+position = Vector2(-50, -0.9999962)
+scale = Vector2(1.6789471, 1.6789473)
+texture = ExtResource("2_v8qja")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_v8qja")

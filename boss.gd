@@ -25,7 +25,8 @@ func _ready():
 	HPBar.value = hp
 
 func _process(delta):
-	sprite.rotation = -global_rotation
+	if player:
+		sprite.look_at(player.global_position)
 	add_to_group("enemies")  # Important for bullet collision
 	find_player()
 	update_HpBar()

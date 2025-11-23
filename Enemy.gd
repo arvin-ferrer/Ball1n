@@ -27,14 +27,15 @@ func find_player():
 	
 	if player == null:
 		print("WARNING: Enemy couldn't find player!")
+		
 func _physics_process(delta):
 	if player == null or not is_instance_valid(player):
 		find_player()
 		return
-	if player.global_position.x < global_position.x:
-		$AnimatedSprite2D.flip_h = true 
-	else:
-		$AnimatedSprite2D.flip_h = false
+	#if player.global_position.x < global_position.x:
+	#	$AnimatedSprite2D.flip_h = true 
+	#else:
+	#	$AnimatedSprite2D.flip_h = false
 	var direction = global_position.direction_to(player.global_position)
 
 	if knockback_timer > 0.0:
@@ -46,6 +47,8 @@ func _physics_process(delta):
 		velocity = direction * speed
 	
 	move_and_slide()
+	
+	look_at(player.global_position)
 
 func apply_knockback(direction: Vector2, force: float, knockback_duration: float):
 	knockback = direction * force
